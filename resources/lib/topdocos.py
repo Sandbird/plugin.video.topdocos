@@ -74,7 +74,8 @@ def play_categorys(url):
         items = {
                 'label': label,
                 'path': path,
-    
+        }
+
     except AttributeError:
         items = {
                 'label': 'Sorry content not avaliable.',
