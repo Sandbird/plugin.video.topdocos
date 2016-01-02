@@ -100,19 +100,25 @@ def get_section(url, section):
             content = i.find_all('li')
             
             for i in content:
-                label_path = i.find('a')
-                label = label_path.get('title')
-
-                path = label_path.get('href')
+                try:
+                    label_path = i.find('a')
+                    label = label_path.get('title')
+                    print label
+                    path = label_path.get('href')
                 
-                thumbnail = i.find('img').get('src')
+                    thumbnail = i.find('img').get('src')
 
-                items = {
-                    'label': label,
-                    'path': path,
-                    'thumbnail': thumbnail,
-                }
+                    items = {
+                        'label': label,
+                        'path': path,
+                        'thumbnail': thumbnail,
+                    }
+                
+                except AttributeError:
+                    continue
 
                 output.append(items)
     
     return output
+
+get_section('http://topdocumentaryfilms.com/', 'highest rated')
