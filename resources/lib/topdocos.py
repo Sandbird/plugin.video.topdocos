@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import requests
 import re
+import xbmc
 
 
 def get_soup(url):
@@ -35,23 +36,31 @@ def get_categorys(url):
 def get_categorys_content(url):
     soup = get_soup(url)
     content = soup.find_all('article', {'class': 'module'})
-
+    #time = 5000 #in miliseconds
+    #msg = len(content)
+    #__icon__ = '/script.hellow.world.png'
+    #xbmc.executebuiltin('Notification(%s, %d, %s)'%(msg, time, __icon__))
     output = []
 
     for i in content:
-        label = i.find('h2')
-        label = label.find('a').get('title')
+        try:
+			label = i.find('h2')
+			label = label.find('a').get('title')
 
-        path = i.find('h2')
-        path = path.find('a').get('href')
-        
-        thumb = i.find('img').get('src')
+			path = i.find('h2')
+			path = path.find('a').get('href')
+			
+			thumb = i.find('img').get('src')
+			if not thumb:
+				thumb = i.find('img').get('data-src')
 
-        items = {
-                'label': label,
-                'path': path,
-                'thumbnail': thumb,
-        }
+			items = {
+					'label': label,
+					'path': path,
+					'thumbnail': thumb,
+			}
+        except AttributeError:
+			continue
 
         output.append(items)
 
