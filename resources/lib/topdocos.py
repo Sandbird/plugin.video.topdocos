@@ -43,26 +43,24 @@ def get_categorys_content(url):
     output = []
 
     for i in content:
-        try:
-			label = i.find('h2')
-			label = label.find('a').get('title')
+		label = i.find('h2')
+		#label = label.find('a').get('title')
+		label = label.find('a').string
+		label = label.replace("9/11", "911", 1)
 
-			path = i.find('h2')
-			path = path.find('a').get('href')
-			
-			thumb = i.find('img').get('src')
-			if not thumb:
-				thumb = i.find('img').get('data-src')
+		path = i.find('h2')
+		path = path.find('a').get('href')
+		
+		thumb = i.find('img').get('src')
+		if not thumb:
+			thumb = i.find('img').get('data-src')
 
-			items = {
-					'label': label,
-					'path': path,
-					'thumbnail': thumb,
-			}
-        except AttributeError:
-			continue
-
-        output.append(items)
+		items = {
+				'label': label,
+				'path': path,
+				'thumbnail': thumb,
+		}
+		output.append(items)
 
     return output
 
@@ -109,24 +107,22 @@ def get_section(url, section):
             content = i.find_all('li')
             
             for i in content:
-                try:
-                    label_path = i.find('a')
-                    label = label_path.get('title')
-                    print label
-                    path = label_path.get('href')
-                
-                    thumbnail = i.find('img').get('src')
+				label_path = i.find('a')
+				label = label_path.get('title')
+				print label
+				path = label_path.get('href')
+			
+				thumbnail = i.find('img').get('data-src')
+				if not thumbnail:
+					thumbnail = i.find('img').get('src')
 
-                    items = {
-                        'label': label,
-                        'path': path,
-                        'thumbnail': thumbnail,
-                    }
+				items = {
+					'label': label,
+					'path': path,
+					'thumbnail': thumbnail,
+				}
                 
-                except AttributeError:
-                    continue
-
-                output.append(items)
+				output.append(items)
     
     return output
 
