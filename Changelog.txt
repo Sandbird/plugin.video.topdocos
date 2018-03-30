@@ -1,2 +1,8 @@
 __Version 1.0.0__
 1. Initial working version
+
+__Version 1.0.1__
+1. Fixed Categories not parsing properly
+2. Added labels under movies
+3. Fixed thumbnails
+4. Added paging in categories
