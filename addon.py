@@ -149,11 +149,11 @@ def get_categorys(url):
 			path = j.get('href')
 			label = j.string
 			thumb = ''
-			if label in ('Previous', 'Next'):
+			if label in ('Next'):
 				items2 = {
-						'label': label,
-						'path': plugin.url_for('get_categorys', url=path),
-						'thumbnail': thumb,
+					'label': label,
+					'path': plugin.url_for('get_categorys', url=path),
+					'thumbnail': thumb,
 				}
 				items.append(items2)
 		
