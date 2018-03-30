@@ -1,12 +1,18 @@
 from xbmcswift2 import Plugin, xbmcgui
 from resources.lib import topdocos
-
+from bs4 import BeautifulSoup as bs
+import requests
 
 PLUGIN_URL = 'plugin://plugin.video.youtube/?action=play_video&videoid='
 SITE_URL = 'http://topdocumentaryfilms.com/'
 
 plugin = Plugin()
 
+def get_soup(url):
+    page = requests.get(url)
+    soup = bs(page.text, 'html.parser')
+    
+    return soup
 
 @plugin.route('/')
 def main_menu():
@@ -133,6 +139,24 @@ def get_categorys(url):
             'thumbnail': i['thumbnail'],
         })
 
+    thumb = ''
+    items2 = []
+    soup = get_soup(url)
+    paging = soup.find_all('div', {'class': 'pagination module'})
+    for i in paging:
+		content = i.find_all('a')
+		for j in content:
+			path = j.get('href')
+			label = j.string
+			thumb = ''
+			if label in ('Previous', 'Next'):
+				items2 = {
+						'label': label,
+						'path': plugin.url_for('get_categorys', url=path),
+						'thumbnail': thumb,
+				}
+				items.append(items2)
+		
     return items
 
 
